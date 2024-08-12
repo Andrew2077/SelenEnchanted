@@ -15,16 +15,23 @@ Checking dist\selen_enchanted-0.1.tar.gz: PASSED
 
 from setuptools import setup, find_packages
 
-with open('requirements.txt') as f:
-    requirements = f.read().splitlines()
-
-
 with open('README.md', 'r') as f:
     long_description = f.read()
 
+requirements = [
+    "chromedriver_autoinstaller==0.6.2",
+    "requests==2.32.3",
+    "selenium==4.23.1",
+    "selenium_wire==5.1.0",
+    "ua_generator==0.5.1",
+    "user_agents==2.2.0",
+    "webdriver_manager==4.0.1"
+]
+
+
 setup(
     name='selen-enchanted',
-    version='0.0.10',
+    version='0.0.10.0',
     packages=find_packages(),
     author="Andrew Naaem",
     author_email="andrew.naaem99@gmail.com",
