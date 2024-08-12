@@ -43,8 +43,10 @@ Usage:
 import traceback
 from typing import Any, Callable, TypeVar, cast
 
-from selenium.common.exceptions import (NoSuchElementException,
-                                        StaleElementReferenceException)
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    StaleElementReferenceException,
+)
 
 from .logger import Logger
 
@@ -62,6 +64,7 @@ class ErrorHandler:
         Returns:
             F: The wrapped function.
         """
+
         def wrapper(self, *args, **kwargs):
             try:
                 return func(self, *args, **kwargs)
@@ -69,6 +72,7 @@ class ErrorHandler:
                 return None
             except Exception:
                 return None
+
         return wrapper
 
     def check(func: F) -> F:
@@ -81,6 +85,7 @@ class ErrorHandler:
         Returns:
             F: The wrapped function.
         """
+
         def wrapper(self, *args, **kwargs):
             logger = cast(Logger, getattr(self, "logger", None))
             log = cast(bool, getattr(self, "log", False))
@@ -111,15 +116,16 @@ class ErrorHandler:
         Returns:
             F: The wrapped function.
         """
+
         def wrapper(self, *args, **kwargs):
             logger = cast(Logger, getattr(self, "logger", None))
             for _ in range(3):
                 try:
                     return func(self, *args, **kwargs)
-                
+
                 except StaleElementReferenceException:
                     continue
-                
+
                 except Exception:
                     tb = traceback.format_exc()
                     logger.error(f"Error in {func.__name__}: {tb}")
@@ -139,6 +145,7 @@ class ErrorHandler:
         Returns:
             Callable[[F], F]: The decorator function.
         """
+
         def decorator(func: F) -> F:
             def wrapper(self, *args, **kwargs):
                 logger = cast(Logger, getattr(self, "logger", None))

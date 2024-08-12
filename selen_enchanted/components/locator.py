@@ -21,6 +21,7 @@ from selenium.common.exceptions import TimeoutException, StaleElementReferenceEx
 from ..utilities.logger import Logger
 from ..utilities import exceptions as Exceptions
 
+
 class Locator:
     """
     Locator class to find web elements using Selenium WebDriver.
@@ -114,7 +115,11 @@ class Locator:
             return element
 
         except TimeoutException:
-            raise Exceptions.ExpectedElementNotFoundException(f"Element not found within timeout, identified selector: {method} : {val}") from None
+            raise Exceptions.ExpectedElementNotFoundException(
+                f"Element not found within timeout, identified selector: {method} : {val}"
+            ) from None
 
         except StaleElementReferenceException:
-            raise Exceptions.ExpectedElementNotFoundException(f"Element no longer found in the DOM, identified selector: {method} : {val}") from None
+            raise Exceptions.ExpectedElementNotFoundException(
+                f"Element no longer found in the DOM, identified selector: {method} : {val}"
+            ) from None

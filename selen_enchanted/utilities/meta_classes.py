@@ -15,7 +15,9 @@ class SingletonMeta(type):
         b = MyClass()
         assert a is b  # This will always be True for classes using SingletonMeta
     """
+
     _instances = {}
+
     def __call__(cls, *args, **kwargs):
         """
         Possible changes to the value of the `__init__` argument do not affect

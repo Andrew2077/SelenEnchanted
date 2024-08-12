@@ -3,6 +3,7 @@ import os
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
+
 class Cookies:
     """
     A class to manage browser cookies using Selenium WebDriver.
@@ -16,10 +17,10 @@ class Cookies:
     -------
     save_cookies():
         Saves the current cookies from the browser to a JSON file.
-    
+
     load_cookies(cookies_path: str):
         Loads cookies from a JSON file and adds them to the browser.
-    
+
     clear_all_cookies():
         Clears all cookies from the browser.
     """

@@ -168,7 +168,7 @@ class UserAgentGenerator:
         self._create_clienthints()
         emulation = self.create_emulation()
         return emulation
-    
+
     def __call__(self):
         """
         Returns the generated emulation settings when the instance is called.
@@ -181,4 +181,4 @@ class UserAgentGenerator:
 
 if __name__ == "__main__":
     ua = UserAgentGenerator()
-    emulation = ua() # ua.emulation
+    emulation = ua()  # ua.emulation

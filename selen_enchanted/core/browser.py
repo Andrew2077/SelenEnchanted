@@ -1,4 +1,3 @@
-
 from typing import Optional, Union
 
 from selenium.webdriver.chrome.options import Options
@@ -21,25 +20,26 @@ from ..utilities.sleeper import Sleeper
 
 class Browser:
     """
-        The Browser class facilitates interaction with web pages using Selenium WebDriver, serving as a comprehensive wrapper around the WebDriver.
-    
-        Key Features:
-        - Direct access to all WebDriver actions via the `driver` attribute.
-        - Default options are applied if no specific options are provided. Refer to `options.py` for detailed documentation on option modes.
-        - Automatic installation of ChromeDriver using `chromedriver_autoinstaller` if not already present.
-        - Optional use of ChromeDriverManager for ChromeDriver installation by setting `use_driver_manager` to True.
-        - Support for selenium-wire with customizable proxy settings through `wire_options`.
-            - Example configuration:
-            ```python 
-            wire_options = {
-                "proxy": {
-                    "http": "http://localhost:8888", 
-                    "https": "http://localhost:8888",
-                }
+    The Browser class facilitates interaction with web pages using Selenium WebDriver, serving as a comprehensive wrapper around the WebDriver.
+
+    Key Features:
+    - Direct access to all WebDriver actions via the `driver` attribute.
+    - Default options are applied if no specific options are provided. Refer to `options.py` for detailed documentation on option modes.
+    - Automatic installation of ChromeDriver using `chromedriver_autoinstaller` if not already present.
+    - Optional use of ChromeDriverManager for ChromeDriver installation by setting `use_driver_manager` to True.
+    - Support for selenium-wire with customizable proxy settings through `wire_options`.
+        - Example configuration:
+        ```python
+        wire_options = {
+            "proxy": {
+                "http": "http://localhost:8888",
+                "https": "http://localhost:8888",
             }
-            ```
-        - For additional selenium-wire configuration options, visit: https://github.com/wkeeling/selenium-wire
+        }
+        ```
+    - For additional selenium-wire configuration options, visit: https://github.com/wkeeling/selenium-wire
     """
+
     def __init__(
         self,
         options: Optional[Options] = None,
@@ -73,7 +73,7 @@ class Browser:
 
         # Profile
         self.profile = Profiler()
-        
+
     def wait(self, seconds: int):
         """For detailed DocString use `help(Browser.wait)` or use `browser.sleeper.wait`"""
         self.sleeper.wait(seconds)
@@ -127,7 +127,7 @@ class Browser:
     def save_image(self, url: str, path: str):
         """For detailed DocString use `help(Browser.save_image)` or use `browser.tab.save_image`"""
         self.tab.save_image(url, path)
-    
+
     def save_base64_image(self, base64_image: str, path: str):
         """For detailed DocString use `help(Browser.save_base64_image)` or use `browser.tab.save_base64_image`"""
         self.tab.save_base64_image(base64_image, path)
@@ -245,4 +245,6 @@ class Browser:
         tolerance: float = 0.7,
     ):
         """For detailed DocString use `help(Browser.scroll_like_mouse_to_element)` or use `browser.scroller.scroll_like_mouse_to_element`"""
-        self.scroller.scroll_like_mouse_to_element(element, scroll_length, timeout, tolerance)
+        self.scroller.scroll_like_mouse_to_element(
+            element, scroll_length, timeout, tolerance
+        )

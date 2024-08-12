@@ -48,34 +48,39 @@ from ..utilities.logger import Logger
 
 F = TypeVar("F", bound=Callable[..., Any])
 
+
 class Profiler(metaclass=SingletonMeta):
     """
     A singleton class that provides decorators for profiling and error tracing.
-    
+
     Attributes:
         _apply_profiling (bool): A flag to enable or disable profiling.
     """
+
     _apply_profiling = True
 
     @staticmethod
     def timeit_method(func: Callable) -> Callable:
         """
         Logs the time taken for a method to run.
-        
+
         Args:
             func (Callable): The method to be profiled.
-        
+
         Returns:
             Callable: The wrapped method with profiling.
         """
+
         def wrapper(self, *args, **kwargs):
             if Profiler._apply_profiling:
                 logger = cast(Logger, getattr(self, "logger", None))
                 start = time.monotonic()
                 result = func(self, *args, **kwargs)
                 end = time.monotonic()
-                logger.info(f"Time taken : {end - start:.4f} at {func.__name__} form {func.__module__}")
-                
+                logger.info(
+                    f"Time taken : {end - start:.4f} at {func.__name__} form {func.__module__}"
+                )
+
                 return result
             else:
                 return func(self, *args, **kwargs)
@@ -85,19 +90,22 @@ class Profiler(metaclass=SingletonMeta):
     def timeit_function(self, func: Callable) -> Callable:
         """
         Logs the time taken for a function to run.
-        
+
         Args:
             func (Callable): The function to be profiled.
-        
+
         Returns:
             Callable: The wrapped function with profiling.
         """
+
         def wrapper(*args, **kwargs):
             if Profiler._apply_profiling:
                 start = time.monotonic()
                 result = func(*args, **kwargs)
                 end = time.monotonic()
-                print(f"Time taken : {end - start:.4f} at {func.__name__} form {func.__module__}")
+                print(
+                    f"Time taken : {end - start:.4f} at {func.__name__} form {func.__module__}"
+                )
                 return result
             else:
                 return func(*args, **kwargs)
@@ -108,13 +116,14 @@ class Profiler(metaclass=SingletonMeta):
     def trace_error_method(func: Callable) -> Callable:
         """
         Logs the error if a method fails.
-        
+
         Args:
             func (Callable): The method to be traced for errors.
-        
+
         Returns:
             Callable: The wrapped method with error tracing.
         """
+
         def wrapper(self, *args, **kwargs):
             try:
                 result = func(self, *args, **kwargs)
@@ -123,11 +132,16 @@ class Profiler(metaclass=SingletonMeta):
                 logger = cast(Logger, getattr(self, "logger", None))
                 tab = cast(Tab, getattr(self, "core", None))
                 error_trace = traceback.format_exc()
-                logger.error(f"Error at {func.__name__} form {func.__module__} : \n{error_trace}")
-                
+                logger.error(
+                    f"Error at {func.__name__} form {func.__module__} : \n{error_trace}"
+                )
+
                 screen_dir = f"{logger.log_dir}/profiler_screens"
                 os.makedirs(screen_dir, exist_ok=True)
                 screen_path = f"{screen_dir}/{func.__name__}.png"
                 tab.screen(screen_path)
-                raise Exceptions.ExecutionFailedException(f"Error at {func.__name__} form {func.__module__} : \n{error_trace}")
+                raise Exceptions.ExecutionFailedException(
+                    f"Error at {func.__name__} form {func.__module__} : \n{error_trace}"
+                )
+
         return wrapper

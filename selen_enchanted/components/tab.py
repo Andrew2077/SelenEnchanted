@@ -10,6 +10,7 @@ Tab
     A class to represent a browser tab and perform various operations on it.
 
 """
+
 import base64
 import os
 from io import BytesIO
@@ -174,7 +175,7 @@ class Tab:
             response = requests.get(url, stream=True)
             response.raise_for_status()
 
-            with open(path, 'wb') as out_file:
+            with open(path, "wb") as out_file:
                 out_file.write(response.content)
             self.logger.info(f"Image saved at {path}")
         except requests.exceptions.RequestException as e:
@@ -188,12 +189,11 @@ class Tab:
             base64_image_data (str): The Base64-encoded image data.
             path (str): The path where the image will be saved.
         """
-        base64_image_data = base64_image_data.split(',')[1]
+        base64_image_data = base64_image_data.split(",")[1]
         image_data = base64.b64decode(base64_image_data)
         image = Image.open(BytesIO(image_data))
         image.save(path)
         self.logger.info(f"Image saved at {path}")
-            
 
     def download_content(self, src: str, path: str, name: str):
         """
@@ -223,4 +223,3 @@ class Tab:
                 )
         except Exception as e:
             self.logger.info("Failed to download the video. Error:", e)
-    

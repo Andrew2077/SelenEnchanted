@@ -55,7 +55,7 @@ class Scroller:
 
         Args:
             element (WebElement): The element to scroll into view.
-        
+
         Raises:
             Exceptions.ScrollFailedException: If scrolling fails.
         """
@@ -71,7 +71,7 @@ class Scroller:
 
         Args:
             length (int, optional): The length to scroll. Defaults to 5000.
-        
+
         Raises:
             Exceptions.ScrollFailedException: If scrolling fails.
         """
@@ -133,7 +133,9 @@ class Scroller:
                 self.scroll_to_element(element)
                 return
 
-    def _is_element_centered_in_viewport(self, element: WebElement, tolerance: float = 0.7) -> bool:
+    def _is_element_centered_in_viewport(
+        self, element: WebElement, tolerance: float = 0.7
+    ) -> bool:
         """
         Checks if the specified element is centered within the viewport, within a given tolerance.
 

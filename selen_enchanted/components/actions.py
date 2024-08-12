@@ -72,16 +72,24 @@ class Actions:
         Args:
             key (str): The arrow key to press ('right', 'left', 'up', 'down').
         """
-        if key.lower() == 'right':
-            self.action_chain.key_down(self.keys.ARROW_RIGHT).key_up(self.keys.ARROW_RIGHT).perform()
-        elif key.lower() == 'left':
-            self.action_chain.key_down(self.keys.ARROW_LEFT).key_up(self.keys.ARROW_LEFT).perform()
-        elif key.lower() == 'up':
-            self.action_chain.key_down(self.keys.ARROW_UP).key_up(self.keys.ARROW_UP).perform()
-        elif key.lower() == 'down':
-            self.action_chain.key_down(self.keys.ARROW_DOWN).key_up(self.keys.ARROW_DOWN).perform()
+        if key.lower() == "right":
+            self.action_chain.key_down(self.keys.ARROW_RIGHT).key_up(
+                self.keys.ARROW_RIGHT
+            ).perform()
+        elif key.lower() == "left":
+            self.action_chain.key_down(self.keys.ARROW_LEFT).key_up(
+                self.keys.ARROW_LEFT
+            ).perform()
+        elif key.lower() == "up":
+            self.action_chain.key_down(self.keys.ARROW_UP).key_up(
+                self.keys.ARROW_UP
+            ).perform()
+        elif key.lower() == "down":
+            self.action_chain.key_down(self.keys.ARROW_DOWN).key_up(
+                self.keys.ARROW_DOWN
+            ).perform()
 
-    def click_by_mouse(self, element: WebElement, num_clicks: int=1):
+    def click_by_mouse(self, element: WebElement, num_clicks: int = 1):
         """
         Clicks on a web element using the mouse.
 
@@ -95,7 +103,7 @@ class Actions:
                 self.action_chain.move_to_element(element).click().perform()
             except JavascriptException:
                 element.click()
-        self.sleeper.catigorized_random_wait('short')
+        self.sleeper.catigorized_random_wait("short")
 
     def calc_element_center(self, element: WebElement) -> Tuple[int, int]:
         """
@@ -107,10 +115,10 @@ class Actions:
         Returns:
             - Tuple[int, int]: The x and y coordinates of the center of the element.
         """
-        x_c = element.location['x'] + element.size['width']//2
-        y_c = element.location['y'] + element.size['height']//2
+        x_c = element.location["x"] + element.size["width"] // 2
+        y_c = element.location["y"] + element.size["height"] // 2
         return x_c, y_c
-    
+
     def click_on_location(self, x: int, y: int):
         """
         Clicks on a specific location using JavaScript.
@@ -121,7 +129,7 @@ class Actions:
         """
         self.driver.execute_script(self.js.PERFORM_MOUSE_CLICK, x, y)
         self.sleeper.catigorized_random_wait("very_short")
-    
+
     def highlight_element(self, element: WebElement):
         """
         Highlights a web element using JavaScript.
@@ -146,8 +154,10 @@ class Actions:
         """
         cursor_position = self.driver.execute_async_script(self.js.GET_CURSOR_COORDS)
         return cursor_position
-        
-    def hover(self, element: WebElement, timeout: Union[str,int] = "very_short") -> None:
+
+    def hover(
+        self, element: WebElement, timeout: Union[str, int] = "very_short"
+    ) -> None:
         """
         Hovers over a web element.
 
@@ -161,7 +171,7 @@ class Actions:
             self.sleeper.catigorized_random_wait(timeout)
         else:
             self.sleeper.wait(timeout)
-            
+
     def hover_over_coordinates(self, x: int, y: int, click: bool = False):
         """
         Hovers over specific coordinates and optionally clicks.
@@ -185,14 +195,14 @@ class Actions:
             y (int): The y-coordinate to move the cursor to.
         """
         self.driver.execute_script(self.js.MOVE_CURSOR_AND_CREATE_DOT, x, y)
-    
+
     def ensure_transition(self):
         """
         Ensures a transition by pressing Escape and waiting.
         """
         self.press_esc()
         self.sleeper.catigorized_random_wait("very_short")
-    
+
     def clear_input(self, input_element: WebElement):
         """
         Clears the input field of a web element.
@@ -200,12 +210,12 @@ class Actions:
         Args:
             input_element (WebElement): The web element whose input field to clear.
         """
-        if os.name == 'nt':
-            select_all = (Keys.CONTROL + "a")
+        if os.name == "nt":
+            select_all = Keys.CONTROL + "a"
             input_element.send_keys(select_all)
             input_element.send_keys(Keys.DELETE)
         else:
-            val = input_element.get_attribute('value')
+            val = input_element.get_attribute("value")
             for i in range(len(val)):
                 self.sleeper.wait(0.03)
                 input_element.send_keys(Keys.BACKSPACE)

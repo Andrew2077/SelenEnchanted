@@ -19,6 +19,7 @@ import logging
 import os
 from ..utilities.meta_classes import SingletonMeta
 
+
 class Logger(metaclass=SingletonMeta):
     """
     A singleton class for logging messages to both console and files.

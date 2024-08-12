@@ -32,6 +32,7 @@ MODES = {
     2: "mobile",  # Mobile mode adds the mobile emulation arguments to the browser
 }
 
+
 class OptionsMode:
     """
     A class to configure and manage Selenium WebDriver Chrome options.
@@ -77,12 +78,12 @@ class OptionsMode:
             reduce_traffic (bool): Whether to reduce network traffic. Defaults to False.
             page_load_strategy (int): The page load strategy for the browser. Defaults to 0 (normal).
             useragent_emulation (Optional[dict]): The user agent emulation settings. Defaults to None.
-            
+
         Available Modes:
             - 0 (default): Default mode no arguments are added except for the the ones added to constructor
             - 1 (base): Base mode adds the basic arguments to the browser
             - 2 (mobile): Mobile mode adds the mobile emulation arguments to the browser [deaulted to emulated Android device]
-            
+
         Page Load Strategies:
             - 0 (normal): Used by default by browser and Selenium WebDriver. Waits for all the resources to be downloaded.
             - 1 (eager): Resources like images and CSS might still be loading, but DOM is accessible and ready to interact.
@@ -99,7 +100,7 @@ class OptionsMode:
 
         if page_load_strategy not in PLS:
             raise ValueError("Invalid page load strategy")
-        
+
         self.mode = MODES[mode]
         self.pls = PLS[page_load_strategy]
         self.emulation = useragent_emulation

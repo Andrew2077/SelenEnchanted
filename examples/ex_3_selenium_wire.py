@@ -17,4 +17,3 @@ options.add_argument("--disable-notifications")
 browser = Browser(options=options, use_wire=True, wire_options=selenium_wire_options)
 browser.get_url("https://www.google.com")
 browser.wait(5)
-
