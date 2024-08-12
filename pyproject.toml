@@ -1,3 +1,32 @@
 [build-system]
 requires = ["setuptools>=60", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "selen-enchanted"
+version = "0.0.10"
+description = "A selenium wrapper that makes it easier to use"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "Apache License 2.0"}
+authors = [
+    {name = "Andrew Naaem", email = "andrew.naaem99@gmail.com"}
+]
+keywords = ["selenium", "wrapper", "automation", "testing"]
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "chromedriver_autoinstaller==0.6.2",
+    "Requests==2.32.3",
+    "selenium==4.23.1",
+    "selenium_wire==5.1.0",
+    "ua_generator==0.5.1",
+    "user_agents==2.2.0",
+    "webdriver_manager==4.0.1"
+]
+
+[project.urls]
+Homepage = "https://github.com/Andrew2077/SelenEnchanted"
