@@ -12,31 +12,25 @@ Checking dist\selen_enchanted-0.0.10.tar.gz: PASSED
 Checking dist\selen_enchanted-0.1.tar.gz: PASSED
 ```
 """
-
+import os
 from setuptools import setup, find_packages
+
+
+this_dir = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_dir, 'requirements.txt')) as f:
+    required = f.read().splitlines()
 
 with open('README.md', 'r') as f:
     long_description = f.read()
 
-requirements = [
-    "chromedriver_autoinstaller==0.6.2",
-    "requests==2.32.3",
-    "selenium==4.23.1",
-    "selenium_wire==5.1.0",
-    "ua_generator==0.5.1",
-    "user_agents==2.2.0",
-    "webdriver_manager==4.0.1"
-]
-
-
 setup(
     name='selen-enchanted',
-    version='0.0.10.0',
+    version='0.0.10',
     packages=find_packages(),
     author="Andrew Naaem",
     author_email="andrew.naaem99@gmail.com",
     license='Apache License 2.0',
-    install_requires=requirements,
+    install_requires=required,
     description='A selenium wrapper that makes it easier to use',
     url="https://github.com/Andrew2077/SelenEnchanted",
     long_description=long_description,
