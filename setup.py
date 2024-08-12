@@ -1,24 +1,14 @@
-"""
-To install run 
-```
-python setup.py sdist bdist_wheel
-twine check dist/*
-```
-it should return
-```
-Checking dist\selen_enchanted-0.0.10-py3-none-any.whl: PASSED
-Checking dist\selen_enchanted-0.1-py3-none-any.whl: PASSED
-Checking dist\selen_enchanted-0.0.10.tar.gz: PASSED
-Checking dist\selen_enchanted-0.1.tar.gz: PASSED
-```
-"""
 import os
 from setuptools import setup, find_packages
 
-
 this_dir = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(this_dir, 'requirements.txt')) as f:
-    required = f.read().splitlines()
+requirements_path = os.path.join(this_dir, 'requirements.txt')
+
+if os.path.exists(requirements_path):
+    with open(requirements_path) as f:
+        required = f.read().splitlines()
+else:
+    required = []
 
 with open('README.md', 'r') as f:
     long_description = f.read()
