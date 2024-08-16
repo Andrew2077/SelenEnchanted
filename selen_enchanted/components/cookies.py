@@ -36,15 +36,15 @@ class Cookies:
         """
         self.driver = driver
 
-    def save_cookies(self):
+    def save_cookies(self, name: str = "cookies"):
         """
-        Saves the current cookies from the browser to a JSON file.
+        Save the cookies from the current Selenium WebDriver session to a JSON file.
 
-        The cookies are saved in a directory named 'settings/cookies/' with the filename 'cookies.json'.
-        If the directory does not exist, it will be created.
+        Args:
+            name (str, optional): The name of the JSON file to save the cookies to. Defaults to "cookies".
         """
-        directory = "./settings/cookies/"
-        filename = "cookies.json"
+        directory = "./configs/cookies/"
+        filename = f"{name}.json"
         os.makedirs(directory, exist_ok=True)
         path = os.path.join(directory, filename)
         with open(path, "w") as file:

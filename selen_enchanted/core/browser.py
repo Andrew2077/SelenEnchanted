@@ -13,6 +13,7 @@ from ..components.actions import Actions
 from ..components.locator import Locator
 from ..components.scroller import Scroller
 from ..components.tab import Tab
+from ..components.cookies import Cookies
 from ..utilities.logger import Logger
 from ..utilities.profiler import Profiler
 from ..utilities.sleeper import Sleeper
@@ -64,6 +65,7 @@ class Browser:
         self.locator = Locator(self.driver, self.logger)
         self.actions = Actions(self.driver, self.logger)
         self.scroller = Scroller(self.driver)
+        self.cookies = Cookies(self.driver)
         self.js = JavaScripts
 
         # Selenium objects
@@ -248,3 +250,15 @@ class Browser:
         self.scroller.scroll_like_mouse_to_element(
             element, scroll_length, timeout, tolerance
         )
+        
+    def save_cookies(self, name: str = "cookies"):
+        """For detailed DocString use `help(Browser.save_cookies)` or use `browser.cookies.save_cookies`"""
+        self.cookies.save_cookies(name)
+        
+    def load_cookies(self, cookies_path: str):
+        """For detailed DocString use `help(Browser.load_cookies)` or use `browser.cookies.load_cookies`"""
+        self.cookies.load_cookies(cookies_path)
+        
+    def clear_all_cookies(self):
+        """For detailed DocString use `help(Browser.clear_all_cookies)` or use `browser.cookies.clear_all_cookies`"""
+        self.cookies.clear_all_cookies()
