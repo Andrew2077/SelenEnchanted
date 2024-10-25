@@ -97,7 +97,7 @@ class ChromeDriver:
                     - Make sure you're running in the headless mode, headless = True, if you're running on cloud or remotely
                     - Make sure you're passing in `options` attribute from `OptionsMode` class. no the class instance"
                         ```python
-                        options = OptionsMode(mode=1, headless=False, maximized=False).options
+                        options = OptionsMode(mode=1, headless=True, maximized=False).options
                         browser = Browser(options=options)
                         ```
                     - Make sure there Chrome browser installed on your machine

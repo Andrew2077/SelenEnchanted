@@ -5,3 +5,5 @@ selenium_wire==5.1.0
 ua_generator==0.5.1
 user_agents==2.2.0
 webdriver_manager==4.0.1
+blinker==1.6.2
+Pillow==11.0.0

@@ -9,32 +9,7 @@ class RequestAbuseAlertException(Exception):
         super().__init__(self.message)
 
 
-class LogOutFailedException(Exception):
-    """
-    Raised when a login attempt fails, typically due to incorrect account credentials.
-    """
-
-    def __init__(self, message="Failed to logout"):
-        self.message = message
-        super().__init__(self.message)
-
-
-class LoginFailedException(Exception):
-    """
-    Raised when a login attempt fails, typically due to incorrect account credentials.
-    """
-
-    def __init__(self, message="Failed to login - check the account credentials"):
-        self.message = message
-        super().__init__(self.message)
-
-
 class PageAccessiblityException(Exception):
-    """
-    Raised when a page is not accessible, typically due to the page being removed or
-    the account being blocked and the element to enter the page is not found.
-    """
-
     def __init__(self, message="Page Not Accessible - Content Blocked"):
         self.message = message
         super().__init__(self.message)
@@ -93,19 +68,6 @@ class NoIdException(Exception):
     """
 
     def __init__(self, message="No free ID to use found"):
-        self.message = message
-        super().__init__(self.message)
-
-
-class UnableToFindDateElement(Exception):
-    """
-    Exception raised when the date element cannot be found.
-
-    Args:
-        message (str, optional): Custom error message. Defaults to "Couldn't find the date element".
-    """
-
-    def __init__(self, message="Couldn't find the date element"):
         self.message = message
         super().__init__(self.message)
 
