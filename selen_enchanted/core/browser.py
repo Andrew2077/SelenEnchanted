@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional, Union, List, Dict
 
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
@@ -250,15 +250,27 @@ class Browser:
         self.scroller.scroll_like_mouse_to_element(
             element, scroll_length, timeout, tolerance
         )
-        
+
     def save_cookies(self, name: str = "cookies"):
         """For detailed DocString use `help(Browser.save_cookies)` or use `browser.cookies.save_cookies`"""
         self.cookies.save_cookies(name)
-        
+
     def load_cookies(self, cookies_path: str):
         """For detailed DocString use `help(Browser.load_cookies)` or use `browser.cookies.load_cookies`"""
         self.cookies.load_cookies(cookies_path)
-        
+
     def clear_all_cookies(self):
         """For detailed DocString use `help(Browser.clear_all_cookies)` or use `browser.cookies.clear_all_cookies`"""
         self.cookies.clear_all_cookies()
+
+    def save_cookies(self, name: str = "cookies", directory: str = None):
+        """For detailed DocString use `help(Browser.save_cookies)` or use `browser.cookies.save_cookies`"""
+        self.cookies.save_cookies(name, directory)
+
+    def load_cookies(self, cookies: List[Dict]):
+        """For detailed DocString use `help(Browser.load_cookies)` or use `browser.cookies.load_cookies`"""
+        self.cookies.load_cookies(cookies)
+
+    def load_cookies_from_path(self, cookies_path: str):
+        """For detailed DocString use `help(Browser.load_cookies_from_path)` or use `browser.cookies.load_cookies_from_path`"""
+        self.cookies.load_cookies_from_path(cookies_path)
