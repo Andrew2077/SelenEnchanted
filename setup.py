@@ -13,7 +13,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="selen-enchanted",
-    version="0.0.10.4",
+    version="0.0.10.5",
     packages=find_packages(),
     author="Andrew Naaem",
     author_email="andrew.naaem99@gmail.com",

@@ -17,8 +17,20 @@ Usage:
 
 import logging
 import os
+import structlog
 from ..utilities.meta_classes import SingletonMeta
 
+def setup_logger(app_name):
+    structlog.configure(
+        processors=[
+            structlog.processors.TimeStamper(fmt="iso"),
+            structlog.processors.add_log_level,
+            structlog.processors.EventRenamer("message"),
+            structlog.processors.JSONRenderer(),
+        ]
+    )
+    logger = structlog.get_logger(app_name)
+    return logger
 
 class Logger(metaclass=SingletonMeta):
     """
@@ -42,10 +54,11 @@ class Logger(metaclass=SingletonMeta):
 
     def __init__(
         self,
-        log_dir: str,
+        log_dir: str = 'logs',
+        logs_name: str = "SelenEnchanted",
+        use_structlog: bool = False,
         console_logging: bool = True,
         clear_logs: bool = False,
-        logs_name: str = None,
     ):
         """
         Initializes the Logger instance.
@@ -59,35 +72,37 @@ class Logger(metaclass=SingletonMeta):
         self.log_dir = os.path.join(log_dir, logs_name)
         os.makedirs(self.log_dir, exist_ok=True)
 
-        self.all_log_path = os.path.join(self.log_dir, "all.log")
-        self.warn_error_log_path = os.path.join(self.log_dir, "warn_error.log")
+        if use_structlog:
+            self.logger = setup_logger(logs_name)
+            self.log_dir = os.path.join(log_dir, logs_name)
+        else:
+            self.all_log_path = os.path.join(self.log_dir, f"all.log")
+            self.warn_error_log_path = os.path.join(self.log_dir, f"warn_error.log")
 
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+            self.logger = logging.getLogger(__name__)
+            self.logger.setLevel(logging.DEBUG)
+            formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
-        if console_logging:
-            console_handler = logging.StreamHandler()
-            console_handler.setLevel(logging.DEBUG)
-            console_handler.setFormatter(formatter)
-            self.logger.addHandler(console_handler)
+            if console_logging:
+                console_handler = logging.StreamHandler()
+                console_handler.setLevel(logging.DEBUG)
+                console_handler.setFormatter(formatter)
+                self.logger.addHandler(console_handler)
 
-        file_handler = logging.FileHandler(
-            self.all_log_path, mode="a", encoding="utf-8"
-        )
-        file_handler.setLevel(logging.DEBUG)
-        file_handler.setFormatter(formatter)
-        self.logger.addHandler(file_handler)
+            
+            file_handler = logging.FileHandler(self.all_log_path, mode='a', encoding='utf-8')
+            file_handler.setLevel(logging.DEBUG)
+            file_handler.setFormatter(formatter)
+            self.logger.addHandler(file_handler)
+                
+                
+            warn_error_file_handler = logging.FileHandler(self.warn_error_log_path, mode='a', encoding='utf-8')
+            warn_error_file_handler.setLevel(logging.WARNING)  
+            warn_error_file_handler.setFormatter(formatter)
+            self.logger.addHandler(warn_error_file_handler)
 
-        warn_error_file_handler = logging.FileHandler(
-            self.warn_error_log_path, mode="a", encoding="utf-8"
-        )
-        warn_error_file_handler.setLevel(logging.WARNING)
-        warn_error_file_handler.setFormatter(formatter)
-        self.logger.addHandler(warn_error_file_handler)
-
-        if clear_logs:
-            self.clear_log_file()
+            if clear_logs:
+                self.clear_log_file()
 
     def __call__(self, message: str):
         """
