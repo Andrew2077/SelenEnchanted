@@ -27,6 +27,8 @@ class JavaScripts:
 
     SCROLL_INTO_VIEW = "arguments[0].scrollIntoView({block: 'center'});"
 
+    SCROLL_INTO_VIEW_NEAREST = "arguments[0].scrollIntoView({block: 'nearest'});"
+
     SCROLL_WITH_LENGTH = "window.scrollBy(0, arguments[0]);"
 
     GET_ELEMENT_HIGHT = "return arguments[0].getBoundingClientRect().top"

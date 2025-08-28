@@ -8,3 +8,4 @@ webdriver_manager==4.0.1
 blinker==1.6.2
 Pillow==11.0.0
 structlog==23.1.0
+numpy==2.3.2
