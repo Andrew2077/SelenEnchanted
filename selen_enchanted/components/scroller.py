@@ -49,7 +49,7 @@ class Scroller:
         """
         self.driver.execute_script(self.js.SCROLL_TO_ELEMENT, element)
 
-    def scroll_to_element(self, element: WebElement):
+    def scroll_to_element(self, element: WebElement, nearest: bool = False):
         """
         Scrolls to a WebElement.
 
@@ -60,7 +60,10 @@ class Scroller:
             Exceptions.ScrollFailedException: If scrolling fails.
         """
         try:
-            self.driver.execute_script(self.js.SCROLL_INTO_VIEW, element)
+            if nearest:
+                self.driver.execute_script(self.js.SCROLL_INTO_VIEW_NEAREST, element)
+            else:
+                self.driver.execute_script(self.js.SCROLL_INTO_VIEW, element)
         except Exception as exc:
             raise Exceptions.ScrollFailedException() from exc
         self.sleeper.catigorized_random_wait("very_short")
