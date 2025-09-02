@@ -21,6 +21,9 @@ from ..utilities.logger import Logger
 from ..utilities.sleeper import Sleeper
 from .scroller import Scroller
 
+import random
+import time
+import numpy as np
 
 class Actions:
     """
@@ -89,18 +92,87 @@ class Actions:
                 self.keys.ARROW_DOWN
             ).perform()
 
+    # def click_by_mouse(self, element: WebElement, num_clicks: int = 1):
+    #     """
+    #     Clicks on a web element using the mouse.
+
+    #     Args:
+    #         element (WebElement): The web element to click.
+    #         num_clicks (int, optional): The number of clicks to perform. Defaults to 1.
+    #     """
+    #     self.scroller.scroll_to_element(element)
+    #     for _ in range(num_clicks):
+    #         try:
+    #             self.action_chain.move_to_element(element).click().perform()
+    #         except JavascriptException:
+    #             element.click()
+    #     self.sleeper.catigorized_random_wait("short")
+
+    def human_like_mouse_move_to_element(self, driver, element, steps=30, jitter=3, delay=0.01):
+        actions = ActionChains(driver)
+
+        # get element bounding box
+        rect = element.rect
+        elem_x = rect["x"]
+        elem_y = rect["y"]
+        elem_w = rect["width"]
+        elem_h = rect["height"]
+
+        # get window bounds
+        win_w = driver.execute_script("return window.innerWidth")
+        win_h = driver.execute_script("return window.innerHeight")
+
+        # start at last known pos or assume (0,0)
+        if not hasattr(self, "_last_mouse_pos"):
+            self._last_mouse_pos = (0, 0)
+        curr_x, curr_y = self._last_mouse_pos
+
+        # choose random point inside element
+        target_x = elem_x + random.randint(5, max(5, int(elem_w) - 5))
+        target_y = elem_y + random.randint(5, max(5, int(elem_h) - 5))
+
+        # step through path
+        for i in range(1, steps + 1):
+            t = i / steps
+            # easing with sine curve
+            interp_x = curr_x + (target_x - curr_x) * t + random.uniform(-jitter, jitter)
+            interp_y = curr_y + (target_y - curr_y) * t + random.uniform(-jitter, jitter)
+
+            # clamp to viewport
+            interp_x = max(0, min(interp_x, win_w))
+            interp_y = max(0, min(interp_y, win_h))
+
+            # move by offset relative to current
+            dx = interp_x - curr_x
+            dy = interp_y - curr_y
+            actions.move_by_offset(dx, dy).perform()
+
+            curr_x, curr_y = interp_x, interp_y
+            time.sleep(delay)
+
+        # final snap exactly inside element
+        dx = target_x - curr_x
+        dy = target_y - curr_y
+        actions.move_by_offset(dx, dy).perform()
+
+        # update last known pos
+        self._last_mouse_pos = (target_x, target_y)
+
+        return target_x, target_y
+
+
     def click_by_mouse(self, element: WebElement, num_clicks: int = 1):
         """
-        Clicks on a web element using the mouse.
-
-        Args:
-            element (WebElement): The web element to click.
-            num_clicks (int, optional): The number of clicks to perform. Defaults to 1.
+        Clicks on a web element using the mouse with human-like movement.
         """
-        self.scroller.scroll_to_element(element)
+        self.scroller.scroll_to_element(element, nearest=True)
+
         for _ in range(num_clicks):
             try:
-                self.action_chain.move_to_element(element).click().perform()
+                # simulate human-like trajectory
+                self.human_like_mouse_move_to_element(self.driver, element, steps=40, jitter=3, delay=0.01)
+                # once cursor is there, click
+                self.action_chain.click().perform()
             except JavascriptException:
                 element.click()
         self.sleeper.catigorized_random_wait("short")

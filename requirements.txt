@@ -9,3 +9,4 @@ blinker==1.6.2
 Pillow==11.0.0
 numpy
 structlog==23.1.0
+numpy
