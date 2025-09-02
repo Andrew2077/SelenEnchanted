@@ -1,10 +1,11 @@
-chromedriver_autoinstaller==0.6.2
-Requests==2.32.3
+chromedriver-autoinstaller==0.6.2
+requests==2.32.3
 selenium==4.23.1
-selenium_wire==5.1.0
-ua_generator==0.5.1
-user_agents==2.2.0
-webdriver_manager==4.0.1
+selenium-wire==5.1.0
+ua-generator==0.5.1
+user-agents==2.2.0
+webdriver-manager==4.0.1
 blinker==1.6.2
 Pillow==11.0.0
+numpy
 structlog==23.1.0
