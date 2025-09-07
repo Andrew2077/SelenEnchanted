@@ -112,43 +112,39 @@ class Actions:
         actions = ActionChains(driver)
 
         # 1. Ensure element is in viewport
-        driver.execute_script(
-            "arguments[0].scrollIntoView({block: 'center', inline: 'center'});", 
-            element
-        )
-        time.sleep(3)  # let scroll settle
+        self.scroller.scroll_to_element(element, nearest=True)
+        time.sleep(random.randint(1,3))  # let scroll settle
 
-        # 2. Get element bounding box after scroll
+        # 2. Get element bounding box
         rect = element.rect
         elem_x = rect["x"]
         elem_y = rect["y"]
         elem_w = rect["width"]
         elem_h = rect["height"]
 
-        # 3. Get current viewport size
+        # 3. Get viewport size
         win_w = driver.execute_script("return window.innerWidth")
         win_h = driver.execute_script("return window.innerHeight")
 
-        # 4. Start at last known pos (default 0,0)
+        # 4. Start from last known pos (default 0,0)
         if not hasattr(self, "_last_mouse_pos"):
             self._last_mouse_pos = (0, 0)
         curr_x, curr_y = self._last_mouse_pos
 
-        # 5. Pick random point inside element
+        # 5. Pick random target inside element
         target_x = elem_x + random.randint(5, max(5, int(elem_w) - 5))
         target_y = elem_y + random.randint(5, max(5, int(elem_h) - 5))
 
-        # Clamp target inside viewport (safety)
+        # Clamp to viewport
         target_x = max(0, min(target_x, win_w - 1))
         target_y = max(0, min(target_y, win_h - 1))
 
-        # 6. Step through smooth path
+        # 6. Smooth movement steps
         for i in range(1, steps + 1):
             t = i / steps
             interp_x = curr_x + (target_x - curr_x) * t + random.uniform(-jitter, jitter)
             interp_y = curr_y + (target_y - curr_y) * t + random.uniform(-jitter, jitter)
 
-            # Clamp to viewport at each step
             interp_x = max(0, min(interp_x, win_w - 1))
             interp_y = max(0, min(interp_y, win_h - 1))
 
@@ -159,36 +155,34 @@ class Actions:
             curr_x, curr_y = interp_x, interp_y
             time.sleep(delay)
 
-        # 7. Final snap inside element
+        # 7. Final snap exactly on target
         dx = target_x - curr_x
         dy = target_y - curr_y
         actions.move_by_offset(dx, dy).perform()
 
-        # 8. Save last mouse position
+        # 8. Save mouse position
         self._last_mouse_pos = (target_x, target_y)
 
         return target_x, target_y
 
 
     def click_by_mouse(self, element: WebElement, num_clicks: int = 1):
-        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-        time.sleep(0.3)  # allow layout to stabilize
-
         for _ in range(num_clicks):
             try:
-                # 1. Move cursor in a human-like way
+                # Move cursor in human-like way (this ensures scrolling too)
                 self.human_like_mouse_move_to_element(
                     self.driver, element, steps=40, jitter=3, delay=0.01
                 )
 
-                # 2. Actually click on the element itself, not just wherever cursor ended up
+                # Click on the element (not just last mouse position)
                 ActionChains(self.driver).move_to_element(element).click().perform()
 
             except JavascriptException:
-                # fallback to JS click
+                # Fallback JS click
                 self.driver.execute_script("arguments[0].click();", element)
 
         self.sleeper.catigorized_random_wait("short")
+
 
 
 
