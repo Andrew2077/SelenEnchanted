@@ -65,6 +65,7 @@ class OptionsMode:
         reduce_traffic: bool = False,
         page_load_strategy: int = 0,
         useragent_emulation: Optional[dict] = None,
+        enable_logging: bool = False,
     ) -> None:
         """
         Initializes the OptionsMode object with the specified settings.
@@ -78,6 +79,7 @@ class OptionsMode:
             reduce_traffic (bool): Whether to reduce network traffic. Defaults to False.
             page_load_strategy (int): The page load strategy for the browser. Defaults to 0 (normal).
             useragent_emulation (Optional[dict]): The user agent emulation settings. Defaults to None.
+            enable_logging (bool): Whether to enable performance logging. Defaults to False.
 
         Available Modes:
             - 0 (default): Default mode no arguments are added except for the the ones added to constructor
@@ -105,6 +107,10 @@ class OptionsMode:
         self.pls = PLS[page_load_strategy]
         self.emulation = useragent_emulation
         self.options.page_load_strategy = self.pls
+        
+        if enable_logging:
+            # Enable performance logging for network traffic capture (required for all modes)
+            self.options.set_capability('goog:loggingPrefs', {'performance': 'ALL'})
 
         self.apply_mode()
 

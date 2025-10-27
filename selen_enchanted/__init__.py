@@ -10,6 +10,7 @@ from .core.options import OptionsMode
 from .components.actions import Actions
 from .components.cookies import Cookies
 from .components.scroller import Scroller
+from .components.listener import Listener
 from .components.tab import Tab
 from .utilities import exceptions as Exceptions
 from .utilities.decorators import ErrorHandler
@@ -27,6 +28,7 @@ from . import agents
 
 __all__ = [
     "Browser",
+    "Listener",
     "UserAgentGenerator",
     "ChromeDriver",
     "OptionsMode",

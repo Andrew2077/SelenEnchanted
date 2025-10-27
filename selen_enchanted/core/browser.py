@@ -14,6 +14,7 @@ from ..components.locator import Locator
 from ..components.scroller import Scroller
 from ..components.tab import Tab
 from ..components.cookies import Cookies
+from ..components.listener import Listener
 from ..utilities.logger import Logger
 from ..utilities.profiler import Profiler
 from ..utilities.sleeper import Sleeper
@@ -66,8 +67,8 @@ class Browser:
         self.actions = Actions(self.driver, self.logger)
         self.scroller = Scroller(self.driver)
         self.cookies = Cookies(self.driver)
+        self.listener = Listener(self.driver, self.logger)
         self.js = JavaScripts
-
         # Selenium objects
         self.Keys = Keys()
         self.By = By

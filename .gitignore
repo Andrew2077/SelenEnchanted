@@ -10,3 +10,4 @@ build
 dist
 tests
 selen_enchanted.egg-info
+setup-instruction.md
